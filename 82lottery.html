@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>82 Lottery</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: linear-gradient(to right, #141e30, #243b55);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        iframe {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .floating-icon {
+            position: fixed;
+            width: 50px;
+            height: 50px;
+            background: red;
+            border-radius: 50%;
+            cursor: grab;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            user-select: none;
+            top: 50px;
+            left: 50px;
+        }
+        .dialog-box {
+            position: fixed;
+            bottom: 10%;  /* Dialog को नीचे 10% पर रखें */
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            display: none;
+            text-align: center;
+            box-shadow: 0px 0px 20px rgba(255, 0, 0, 0.8);
+            color: white;
+            width: 250px;
+            border: 3px solid rgba(255, 0, 0, 0.6);
+            background-image: radial-gradient(circle, rgba(255, 0, 0, 0.5) 20%, rgba(0, 0, 0, 0.8) 80%);
+        }
+        .close-icon {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            cursor: pointer;
+            font-size: 20px;
+            color: white;
+        }
+        .result {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 10px 0;
+            transform: scale(0);
+            transition: transform 0.5s ease-in-out;
+        }
+        .cooldown {
+            font-size: 14px;
+            margin-top: 8px;
+        }
+        .btn {
+            padding: 8px 14px;
+            background: transparent;
+            color: white;
+            border: 2px solid #ff0000;
+            cursor: pointer;
+            margin: 8px;
+            font-size: 12px;
+            font-weight: bold;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border-style: solid;
+        }
+        .btn:hover {
+            background: #ff0000;
+            color: black;
+        }
+        .btn:disabled {
+            background: transparent;
+            border: 2px solid gray;
+            color: gray;
+            cursor: not-allowed;
+        }
+        .notice {
+            font-size: 12px;
+            margin-top: 8px;
+            color: #ff0000;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <iframe src="https://www.82lottery9.in/#/register?invitationCode=14244992621"></iframe>
+    <div class="floating-icon" id="icon">+</div>
+    <div class="dialog-box" id="dialog">
+        <span class="close-icon" onclick="document.getElementById('dialog').style.display='none'">&times;</span>
+        <h2>82 Lottery</h2>
+        <div class="result" id="result"></div>
+        <button class="btn" id="resultBtn">Results</button>
+        <div class="cooldown" id="cooldown"></div>
+        <p class="notice">इसी ऐप से नया अकाउंट बनाएं और डिपॉजिट करें तभी ही हैक कनेक्ट होगी।</p>
+        <br>
+        <button class="btn" onclick="window.open('https://telegram.me/apkmodderking')">Join Telegram</button>
+    </div>
+    <script>
+        let icon = document.getElementById("icon");
+        let dialog = document.getElementById("dialog");
+        let resultBtn = document.getElementById("resultBtn");
+        let result = document.getElementById("result");
+        let cooldownText = document.getElementById("cooldown");
+        let cooldown = false;
+
+        icon.addEventListener("mousedown", (e) => {
+            let shiftX = e.clientX - icon.getBoundingClientRect().left;
+            let shiftY = e.clientY - icon.getBoundingClientRect().top;
+            
+            function moveAt(pageX, pageY) {
+                icon.style.left = pageX - shiftX + "px";
+                icon.style.top = pageY - shiftY + "px";
+            }
+            
+            function onMouseMove(event) {
+                moveAt(event.pageX, event.pageY);
+            }
+            
+            document.addEventListener("mousemove", onMouseMove);
+            
+            icon.onmouseup = function() {
+                document.removeEventListener("mousemove", onMouseMove);
+                icon.onmouseup = null;
+            };
+        });
+        
+        icon.ondragstart = function() {
+            return false;
+        };
+
+        icon.addEventListener("click", () => {
+            dialog.style.display = "block";
+        });
+
+        resultBtn.addEventListener("click", () => {
+            if (cooldown) return;
+            let outcomes = ["Big", "Small"];
+            let chosen = outcomes[Math.floor(Math.random() * outcomes.length)];
+            result.innerText = chosen;
+            result.style.transform = "scale(1.5)";
+            setTimeout(() => result.style.transform = "scale(1)", 500);
+            startCooldown();
+        });
+
+        function startCooldown() {
+            cooldown = true;
+            resultBtn.disabled = true;
+            let timeLeft = 60;
+            cooldownText.innerText = `Cooldown: ${timeLeft}s`;
+            let timer = setInterval(() => {
+                timeLeft--;
+                cooldownText.innerText = `Cooldown: ${timeLeft}s`;
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    cooldown = false;
+                    resultBtn.disabled = false;
+                    cooldownText.innerText = "";
+                }
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
